@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\Game">
+      <UniqueIdentifier>{ca3257f3-203e-4fa9-bc7f-01cd6bbbff79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\BoundingBox">
+      <UniqueIdentifier>{59d8cd3f-3ea8-4d02-a14b-038dfb482270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Direct3D">
+      <UniqueIdentifier>{abbe7f39-bb83-47ee-9814-8ccad71f1256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\DirectSound">
+      <UniqueIdentifier>{b64fccd6-1e96-4dd9-8dc5-cb1b70d76a5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Input">
+      <UniqueIdentifier>{a3d2b1d0-9497-4854-ae47-02320eee9582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Other">
+      <UniqueIdentifier>{042f8964-db5a-4c81-bd54-5318501a682e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Template">
+      <UniqueIdentifier>{a9d0277f-e2cd-448e-9b9c-1d16e6f022ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene">
+      <UniqueIdentifier>{1b4905e1-cbfd-4171-94ac-dea21dea4812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Random">
+      <UniqueIdentifier>{b6c41a38-b846-4c7e-a992-958f540ece9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Fade">
+      <UniqueIdentifier>{28b14af3-6e21-4ac8-9729-dd6dffd4a5e5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\winmain.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameState.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BoundingBox\BoundingBox.cpp">
+      <Filter>ソース ファイル\BoundingBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\camera.cpp">
+      <Filter>ソース ファイル\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\Direct3D.cpp">
+      <Filter>ソース ファイル\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\mesh.cpp">
+      <Filter>ソース ファイル\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\Sprite.cpp">
+      <Filter>ソース ファイル\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Direct3D\Texture.cpp">
+      <Filter>ソース ファイル\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectSound\DirectSound.cpp">
+      <Filter>ソース ファイル\DirectSound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectSound\SoundBuffer.cpp">
+      <Filter>ソース ファイル\DirectSound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DirectSound\Wave.cpp">
+      <Filter>ソース ファイル\DirectSound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\directInput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input\Xinput.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Template\Singleton.cpp">
+      <Filter>ソース ファイル\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Player.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Bullet.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\BaseScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\ISceneChanger.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\SceneManager.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Random\Random.cpp">
+      <Filter>ソース ファイル\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Title.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Fade\Fade.cpp">
+      <Filter>ソース ファイル\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Sound.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\SoundEffect.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Result.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\NumDisplay.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\BackGround.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Game\GameState.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BoundingBox\BoundingBox.h">
+      <Filter>ソース ファイル\BoundingBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\camera.h">
+      <Filter>ソース ファイル\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\Direct3D.h">
+      <Filter>ソース ファイル\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\mesh.h">
+      <Filter>ソース ファイル\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\Sprite.h">
+      <Filter>ソース ファイル\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Direct3D\Texture.h">
+      <Filter>ソース ファイル\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectSound\DirectSound.h">
+      <Filter>ソース ファイル\DirectSound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectSound\SoundBuffer.h">
+      <Filter>ソース ファイル\DirectSound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DirectSound\Wave.h">
+      <Filter>ソース ファイル\DirectSound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\directInput.h">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input\Xinput.h">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Template\Singleton.h">
+      <Filter>ソース ファイル\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Other\MyVector.h">
+      <Filter>ソース ファイル\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Player.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Bullet.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\BaseScene.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\ISceneChanger.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\SceneManager.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Task.h">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Random\Random.h">
+      <Filter>ソース ファイル\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Title.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Fade\Fade.h">
+      <Filter>ソース ファイル\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Sound.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\SoundEffect.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Result.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\NumDisplay.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\BackGround.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
