@@ -9,13 +9,14 @@
 #include "../Input/directInput.h"
 
 //フェードアウト用の数値
-#define FADE_OUT_CHANGENUM 1 
-#define FADE_OUT_END 1
-//フェードイン用の数値
-#define FADE_IN_CHANGENUM -1 
-#define FADE_IN_END 0
+#define Fade_Out_ChangeNum 1	//フェードアウト時にα値に加算する数値
+#define Fade_Out_End 1			//テクスチャのα値を比べて処理を終了させる数値
 
-#define FADE_SPEED 0.01f
+//フェードイン用の数値
+#define Fade_In_ChangeNum -1	//フェードイン時にα値に加算する数値
+#define Fade_In_End 0			//テクスチャのα値を比べて処理を終了させる数値
+
+#define FadeSpeed 0.01f			//フェードイン、フェードアウトの速さ
 
 
 class Fade
@@ -35,12 +36,12 @@ public:
 
 	//初期化
 	void Initialize();
-	//実際の動き
-	void Update();
 	//描画
 	void Draw();
 
+	//フェードインの処理を行う関数
 	bool FadeIn();
+	//フェードアウトの処理を行う関数
 	bool FadeOut();
 
 

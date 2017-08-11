@@ -26,7 +26,7 @@ void Result::Initialize()
 	sound.Initialize();
 	se.Initialize();
 
-	resultState = Fade_IN;
+	resultState = FADE_IN;
 
 	numDisplay.LoadTexture("Texture/number.png");
 	numDisplay.SetPosition(1100, 100);
@@ -36,7 +36,6 @@ void Result::Initialize()
 void Result::Draw()
 {
 	Direct3D::SetRenderState(RENDER_ALPHABLEND);
-
 	Direct3D::DrawSprite(ResultSprite, ResultTex);
 
 	if (DrawFlag == true)
@@ -58,7 +57,7 @@ void Result::Update()
 
 	switch (resultState)
 	{
-	case Fade_IN:	//フェードイン
+	case FADE_IN:	//フェードイン
 
 		if (fade.FadeIn() == true)
 		{
@@ -107,14 +106,14 @@ void Result::TextureFlashing()
 	//テクスチャの表示非表示を切り替える
 	if (DrawFlag == false)
 	{
-		if (DrawCount % TEXTURE_DARW_SPEED == TEXTURE_DARW_TIMING)
+		if (DrawCount % Texture_Draw_Speed == Texture_Draw_Timing)
 		{
 			DrawFlag = true;
 		}
 	}
 	else
 	{
-		if (DrawCount % TEXTURE_DARW_SPEED == TEXTURE_DARW_TIMING)
+		if (DrawCount % Texture_Draw_Speed == Texture_Draw_Timing)
 		{
 			DrawFlag = false;
 		}

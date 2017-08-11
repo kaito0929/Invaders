@@ -23,6 +23,8 @@ private:
 	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
 	//弾の座標
 	D3DXVECTOR3 BulletPos;
+	//弾が発射される角度
+	D3DXVECTOR3 BulletShotAngle;
 
 	//各方向のベクトル
 	//当たり判定に使う
@@ -42,7 +44,7 @@ public:
 	void Draw();
 
 	//弾の場所を決定
-	void BulletPosSet(D3DXVECTOR3 pPos);
+	void BulletSet(D3DXVECTOR3 pPos,D3DXVECTOR3 pAngle);
 	//弾を発射しているかのフラグ
 	bool BulletShotFlag;
 

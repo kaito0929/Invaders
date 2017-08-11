@@ -6,7 +6,7 @@
 
 SceneManager::SceneManager() : mNextScene(STATE_NONE)//次のシーン管理変数
 {
-	mScene = (BaseScene*) new Title(this);
+	mScene = (BaseScene*) new GameState(this);
 }
 
 //初期化
@@ -31,7 +31,7 @@ void SceneManager::Update()
 		switch (mNextScene)//シーンによって処理を分岐
 		{
 		case STATE_TITLE:
-			mScene = (BaseScene*)new Title(this);	//タイトル画面のインスタンスを生成する
+			mScene = (BaseScene*)new GameState(this);	//タイトル画面のインスタンスを生成する
 			break;
 		case STATE_MAIN:
 			mScene = (BaseScene*)new GameState(this);

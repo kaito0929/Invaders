@@ -121,36 +121,6 @@ bool Direct3D::Create(HWND hWnd)
 		MessageBox(NULL, "頂点バッファが\n作成できませんでした。", "インベーダー3D", MB_OK); // MB_OK　メッセージボックスのタイプ
 	}
 
-	//Direct3D *d3d = Direct3D::GetInstance();
-
-	////レンダリングステータスの設定
-	//d3d->pDevice3D->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);	// 両面描画モードの設定
-	//d3d->pDevice3D->SetRenderState(D3DRS_LIGHTING, true);			// ライト計算を行う
-	//d3d->pDevice3D->SetRenderState(D3DRS_ZENABLE, true);			// Z比較を行う
-	//d3d->pDevice3D->SetRenderState(D3DRS_DITHERENABLE, true);		// ディザリングを行う
-	//d3d->pDevice3D->SetRenderState(D3DRS_POINTSPRITEENABLE, true);	// ポイントスプライトを使う
-
-	////テクスチャステージステータスの設定
-	//d3d->pDevice3D->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-	//d3d->pDevice3D->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-	//d3d->pDevice3D->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-	//d3d->pDevice3D->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_CURRENT);
-
-	////アルファブレンディングを行う
-	//d3d->pDevice3D->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-	//d3d->pDevice3D->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-	//d3d->pDevice3D->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-
-	////ポイントスプライトの設定
-	//d3d->pDevice3D->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
-
-	////ポイントスケールの係数
-	//d3d->pDevice3D->SetRenderState(D3DRS_POINTSCALEENABLE, true);
-	//d3d->pDevice3D->SetRenderState(D3DRS_POINTSIZE, FloatToDWORD(1.0f));
-	//d3d->pDevice3D->SetRenderState(D3DRS_POINTSIZE_MIN, FloatToDWORD(0.0f));
-	//d3d->pDevice3D->SetRenderState(D3DRS_POINTSCALE_A, FloatToDWORD(0.0f));
-	//d3d->pDevice3D->SetRenderState(D3DRS_POINTSCALE_B, FloatToDWORD(0.0f));
-	//d3d->pDevice3D->SetRenderState(D3DRS_POINTSCALE_C, FloatToDWORD(1.0f));
 
 	return true;//どれかには成功している
 }
@@ -481,7 +451,7 @@ void Direct3D::SetupProjectionMatrix()
 		3.0f / 4.0f,  //y軸方向への視野　ラジアン
 		1.0f,		  //アスペクト比
 		1.0f,		  //近いビュー平面のz値
-		300.0f);	  //遠いビュー平面のz値
+		600.0f);	  //遠いビュー平面のz値
 
 
 	//プロジェクションの行列をデバイスに設定

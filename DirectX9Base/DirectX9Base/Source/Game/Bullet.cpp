@@ -15,6 +15,7 @@ void Bullet::Initialize()
 	BulletModel.Load(_T("Model/Bullet.x"));
 
 	BulletPos.x = BulletPos.y = BulletPos.z = 0.0f;
+	BulletShotAngle.x = BulletShotAngle.y = BulletShotAngle.z = 0.0f;
 
 	right.x = cos(0);
 	right.y = 0;
@@ -66,16 +67,18 @@ void Bullet::Update()
 }
 
 //弾の発射位置を設定する関数
-void Bullet::BulletPosSet(D3DXVECTOR3 pPos)
+void Bullet::BulletSet(D3DXVECTOR3 pPos, D3DXVECTOR3 pAngle)
 {
 	//弾の発射フラグによって処理が変化
 	if (BulletShotFlag == true)
 	{
 		//trueなら奥へ移動
-		BulletPos.z += BulletMoveSpeed;
+		BulletPos += BulletShotAngle * BulletMoveSpeed;
 	}
 	else
 	{
+		//弾の発射角度を更新
+		BulletShotAngle = pAngle;
 		//falseなら位置を更新
 		BulletPos = pPos;
 	}

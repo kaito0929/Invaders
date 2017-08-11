@@ -1,10 +1,12 @@
 #include "BackGround.h"
 
+//コンストラクタ
 BackGround::BackGround()
 {
 
 }
 
+//デストラクタ
 BackGround::~BackGround()
 {
 	delete tex;

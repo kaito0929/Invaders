@@ -33,6 +33,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	//特別な処理を必要とする場合（または自分で独自の処理を行いたい）
 	//はここでメッセージの種類に応じた処理を行う
 	//とりあえず終了処理だけ
+
 	switch (msg)
 	{
 	case WM_DESTROY: //右上の×が押された AltF4が押された時など ウィンドウの破棄時
@@ -147,26 +148,16 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	//Direct3Dデバイスの作成
 	Direct3D* pDirect3d = Direct3D::GetInstance();//インスタンスへのポインタの取得
-	if (pDirect3d->TryCreate(hWnd))
-	{
-		
-	}
+	pDirect3d->TryCreate(hWnd);
 
 	//DirectSoundデバイス作成
 	DirectSound * pDirectSound = DirectSound::GetInstance();
-	if (pDirectSound->Create(hWnd))
-	{
-		
-	}
+	pDirectSound->Create(hWnd);
 	
 
 	//DirectInput
 	DirectInput* pDi = DirectInput::GetInstance();
-
-	if (SUCCEEDED(pDi->Init(hWnd)))
-	{
-		//MessageBox(NULL, "DirectInput初期化完了", "タイトル", MB_OK);
-	}
+	SUCCEEDED(pDi->Init(hWnd));
 
 	
 	Direct3D::GetInstance()->SetupProjectionMatrix();
@@ -222,9 +213,8 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				pDirect3d->EndScene();
 				pDirect3d->Present();
 			}
-
-
 		}	
+		scenemanager.Finalize();
 	}
 
 	Direct3D::DestroyInstance();//インスタンスの削除

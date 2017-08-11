@@ -43,6 +43,9 @@
     <Filter Include="ソース ファイル\Fade">
       <UniqueIdentifier>{28b14af3-6e21-4ac8-9729-dd6dffd4a5e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Time">
+      <UniqueIdentifier>{56ce5e98-1153-42b0-b988-86e2e89ff10e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\winmain.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\BackGround.cpp">
       <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Time\Time.cpp">
+      <Filter>ソース ファイル\Time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="Source\Game\BackGround.h">
       <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Time\Time.h">
+      <Filter>ソース ファイル\Time</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

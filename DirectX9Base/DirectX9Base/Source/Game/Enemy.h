@@ -15,17 +15,28 @@
 #define EnemyMoveSpeed 0.1f			//敵の移動速度
 #define EnemyBorderlinePosZ 10.0f	//敵が到達してはいけないz座標
 
+#define EnemyColumnNum 3			//敵の縦列の長さ
+#define EnemyRowNum 10				//敵の横列の長さ
+
 #define DestroyEffectNum 20			//敵を倒した時のエフェクトの数
 
-
+//敵がやられた際のエフェクト用の構造体
 struct DestroyEffect
 {
-	D3DXVECTOR3 pos;
-	D3DXVECTOR3 angle;
-	float speed;
-	int count;
-	bool used;
+	D3DXVECTOR3 pos;		//位置
+	D3DXVECTOR3 angle;		//方向
+	float speed;			//速さ
+	int count;				//描画する時間
+	bool used;				//使用中か
 };
+
+
+//================================================================
+//クラス名  ：Enemyクラス
+//基底クラス：
+//
+//内容：このクラスをユニットの基底クラスとして派生させていく
+//================================================================
 
 class Enemy
 {
@@ -53,15 +64,20 @@ private:
 	//全ての敵を倒したかの判定
 	bool EnemyOllDestroy;
 
-	DestroyEffect destroyEffect[DestroyEffectNum];
+	DestroyEffect destroyEffect[DestroyEffectNum][EnemyNum];
 	Texture *DestroyTex;
 
 	VERTEX *vertex;
 	Random random;
 
+	D3DXVECTOR3 angle[EnemyNum];
+	D3DXVECTOR3 angleTest[EnemyNum];
+
 public:
 
+	//コンストラクタ
 	Enemy();
+	//デストラクタ
 	~Enemy();
 
 	//初期化
@@ -82,5 +98,7 @@ public:
 	//敵がやられた時のエフェクトの位置などを設定する関数
 	void DestroyEffectSet();
 
+	//敵が指定した位置まで到達した場合にtrueを返し
+	//画面遷移を開始させる関数
 	bool EnemyBorderlineReaching();
 };

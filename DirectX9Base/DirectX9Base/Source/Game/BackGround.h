@@ -31,7 +31,9 @@ private:
 
 public:
 
+	//コンストラクタ
 	BackGround();
+	//デストラクタ
 	~BackGround();
 
 	//初期化

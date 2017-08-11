@@ -1,11 +1,8 @@
 #pragma once
 
-#include "../Direct3D/mesh.h"
 #include "../Direct3D/Direct3D.h"
 #include "../Direct3D/Texture.h"
 #include "../Direct3D/Sprite.h"
-#include "../Direct3D/camera.h"
-#include "../BoundingBox/BoundingBox.h"
 #include "../Input/directInput.h"
 
 #include "../Scene/SceneManager.h"
@@ -18,13 +15,13 @@
 #include "GameState.h"
 #include "NumDisplay.h"
 
-//テクスチャを点滅させる関係
-#define TEXTURE_DARW_SPEED 30
-#define TEXTURE_DARW_TIMING 0
+#define Texture_Draw_Speed 30	//テクスチャを点滅させるスピード
+#define Texture_Draw_Timing 0	//テクスチャを描画するタイミング
 
-enum RESULTSTATE
+//リザルト画面のフロー
+enum RESULT_STATE
 {
-	Fade_IN,
+	FADE_IN,
 	PUSHSPACE,
 };
 
@@ -32,7 +29,7 @@ class Result : public BaseScene
 {
 private:
 
-	//1Pが勝利した場合に表示するテクスチャ
+	//リザルト画面に表示するテクスチャ
 	Texture ResultTex;
 	Sprite ResultSprite;
 
@@ -48,11 +45,15 @@ private:
 	int DrawCount;
 	bool DrawFlag;
 
+	//音楽再生用
 	Sound sound;
 	SoundEffect se;
 
+	//フェードイン、フェードアウト用
 	Fade fade;
-	RESULTSTATE resultState;
+
+	//リザルト画面のフロー
+	RESULT_STATE resultState;
 	NumDisplay numDisplay;
 
 public:

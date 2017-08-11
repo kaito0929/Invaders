@@ -175,6 +175,7 @@
     <ClCompile Include="Source\Scene\ISceneChanger.cpp" />
     <ClCompile Include="Source\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\Template\Singleton.cpp" />
+    <ClCompile Include="Source\Time\Time.cpp" />
     <ClCompile Include="Source\winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +208,7 @@
     <ClInclude Include="Source\Scene\SceneManager.h" />
     <ClInclude Include="Source\Scene\Task.h" />
     <ClInclude Include="Source\Template\Singleton.h" />
+    <ClInclude Include="Source\Time\Time.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

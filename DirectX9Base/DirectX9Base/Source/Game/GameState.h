@@ -2,9 +2,7 @@
 
 #include "../Direct3D/Texture.h"
 #include "../Direct3D/Sprite.h"
-#include "../Direct3D/mesh.h"
 #include "../Direct3D/Direct3D.h"
-#include "../Direct3D/camera.h"
 #include "../Input/directInput.h"
 #include "../Input/Xinput.h"
 
@@ -20,18 +18,15 @@
 #include "NumDisplay.h"
 #include "BackGround.h"
 #include "../Fade/Fade.h"
-#include "../Random/Random.h"
 
 
-//画面のx軸での中央の数値
-#define Screen_CenterX 650
-//画面外
-#define Screen_Out -120
+#define Screen_CenterX 650		//画面のx軸での中央の数値
+#define Screen_Out -120			//画面外
 
-//スタートの文字を動かす数値
-#define StartTex_Move 25
-//プレイヤーの操作が可能になるまでのインターバル
-#define Start_Count_Max 10
+#define StartTex_Move 25		//スタートの文字を動かす数値
+#define Start_Count_Max 10		//プレイヤーの操作が可能になるまでのインターバル
+
+#define ScorePulsNum 20			//スコアに加算する数値
 
 extern int Score;
 
@@ -55,15 +50,16 @@ private:
 	Sound sound;
 	SoundEffect se;
 
-	//スコアの表示用
-	NumDisplay numDisplay;
-
-	MAINGAME_STATE mainState;
-
 	//フェードイン、アウト関係
 	Fade fade;
 	//背景描画用
 	BackGround backGround;
+
+	//スコアの表示用
+	NumDisplay numDisplay;
+
+	//メインゲームのフロー
+	MAINGAME_STATE mainState;
 
 	//ゲーム開始の合図を行うテクスチャ
 	Texture StartTex;
@@ -73,6 +69,13 @@ private:
 	int StartTexPosX;
 	//スタートの合図がしてからのインターバル
 	int StartCount;
+
+	//残り時間
+	int Time;
+	//残り時間管理用のフレーム
+	int TimeFrame;
+	//残り時間表示用
+	NumDisplay timeDisplay;
 
 public:
 	//コンストラクタ
