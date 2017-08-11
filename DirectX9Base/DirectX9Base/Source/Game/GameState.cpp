@@ -27,6 +27,10 @@ void GameState::Initialize()
 	fade.Initialize();
 	backGround.Initialize();
 
+	blueEnemy.Initialize();
+	redEnemy.Initialize();
+	greenEnemy.Initialize();
+
 	Score = 0;
 
 	numDisplay.LoadTexture("Texture/number.png");
@@ -57,8 +61,11 @@ void GameState::Draw()
 	//背景と敵を描画するまで継続
 	Direct3D::SetRenderState(RENDER_POINTSPRITE);
 	backGround.Draw();
-	enemy.Draw();
-	enemy.DestroyEffectDraw();
+	//enemy.Draw();
+	//enemy.DestroyEffectDraw();
+	blueEnemy.Draw();
+	//redEnemy.Draw();
+	//greenEnemy.Draw();
 
 	//ポイントスプライトを描画し終わったので
 	//RenderStateをRENDER_ALPHABLENDに変更
@@ -118,8 +125,12 @@ void GameState::Update()
 	case MAIN:		//メインゲーム
 
 		player.Update();
-		enemy.Update();
+		//enemy.Update();
 		bullet.Update();
+
+		blueEnemy.Update();
+		redEnemy.Update();
+		greenEnemy.Update();
 
 		//BGMを再生開始
 		sound.MainSoundPlay();

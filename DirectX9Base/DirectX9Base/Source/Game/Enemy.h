@@ -11,7 +11,7 @@
 #include "../Random/Random.h"
 
 #define EnemyType 3					//敵の種類
-#define EnemyNum 30					//敵の総数
+#define EnemyNum 8					//敵の総数
 #define EnemyMoveSpeed 0.1f			//敵の移動速度
 #define EnemyBorderlinePosZ 10.0f	//敵が到達してはいけないz座標
 
@@ -19,6 +19,8 @@
 #define EnemyRowNum 10				//敵の横列の長さ
 
 #define DestroyEffectNum 20			//敵を倒した時のエフェクトの数
+
+#define PI 3.141592653589793
 
 //敵がやられた際のエフェクト用の構造体
 struct DestroyEffect
@@ -71,7 +73,6 @@ private:
 	Random random;
 
 	D3DXVECTOR3 angle[EnemyNum];
-	D3DXVECTOR3 angleTest[EnemyNum];
 
 public:
 
@@ -101,4 +102,167 @@ public:
 	//敵が指定した位置まで到達した場合にtrueを返し
 	//画面遷移を開始させる関数
 	bool EnemyBorderlineReaching();
+};
+
+
+//================================================================
+//クラス名  ：BlueEnemyクラス
+//基底クラス：Enemyクラス
+//
+//内容：Enemyクラスから派生させたクラス。青色の敵のクラス
+//================================================================
+
+class BlueEnemy : public Enemy
+{
+private:
+	//敵のモデル
+	Mesh BlueEnemyModel;
+	//メッシュに渡す行列を作成
+	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
+
+	//敵の当たり判定
+	OrientedBoundingBox enemyObb[EnemyNum];
+	//各方向のベクトル
+	//当たり判定に使う
+	D3DXVECTOR3 forward;
+	D3DXVECTOR3 right;
+	D3DXVECTOR3 up;
+
+	//敵の位置
+	D3DXVECTOR3 BlueEnemyPos[EnemyNum];
+
+	//敵の生存フラグ
+	//trueならば描画して、falseならば消えるようにする
+	bool BlueEnemyAliveFlag[EnemyNum];
+
+	//青色の敵の向き（正面）
+	D3DXVECTOR3 BlueEnemyYaw[EnemyNum];
+
+	//角度
+	float degree;
+	//ラジアン
+	float radian;
+
+public:
+
+	//コンストラクタ
+	BlueEnemy();
+	//デストラクタ
+	~BlueEnemy();
+
+	//初期化
+	void Initialize();
+	//実際の動き
+	void Update();
+	//描画
+	void Draw();
+
+	void BlueEnemyReset();
+
+};
+
+
+//================================================================
+//クラス名  ：RedEnemyクラス
+//基底クラス：Enemyクラス
+//
+//内容：Enemyクラスから派生させたクラス。赤色の敵のクラス
+//================================================================
+
+class RedEnemy : public Enemy
+{
+private:
+
+	//敵のモデル
+	Mesh RedEnemyModel;
+	//メッシュに渡す行列を作成
+	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
+
+	//敵の当たり判定
+	OrientedBoundingBox enemyObb[EnemyNum];
+	//各方向のベクトル
+	//当たり判定に使う
+	D3DXVECTOR3 forward;
+	D3DXVECTOR3 right;
+	D3DXVECTOR3 up;
+
+	//敵の位置
+	D3DXVECTOR3 RedEnemyPos[EnemyNum];
+
+	//敵の生存フラグ
+	//trueならば描画して、falseならば消えるようにする
+	bool RedEnemyAliveFlag[EnemyNum];
+
+	//赤色の敵の向き（正面）
+	D3DXVECTOR3 RedEnemyYaw[EnemyNum];
+
+public:
+
+	//コンストラクタ
+	RedEnemy();
+	//デストラクタ
+	~RedEnemy();
+
+	//初期化
+	void Initialize();
+	//実際の動き
+	void Update();
+	//描画
+	void Draw();
+
+	void RedEnemyReset();
+
+};
+
+
+//================================================================
+//クラス名  ：GreenEnemyクラス
+//基底クラス：Enemyクラス
+//
+//内容：Enemyクラスから派生させたクラス。緑色の敵のクラス
+//================================================================
+
+class GreenEnemy : public Enemy
+{
+private:
+
+	//敵のモデル
+	Mesh GreenEnemyModel;
+	//メッシュに渡す行列を作成
+	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
+
+	//敵の当たり判定
+	OrientedBoundingBox enemyObb[EnemyNum];
+	//各方向のベクトル
+	//当たり判定に使う
+	D3DXVECTOR3 forward;
+	D3DXVECTOR3 right;
+	D3DXVECTOR3 up;
+
+	//敵の位置
+	D3DXVECTOR3 GreenEnemyPos[EnemyNum];
+
+	//敵の生存フラグ
+	//trueならば描画して、falseならば消えるようにする
+	bool GreenEnemyAliveFlag[EnemyNum];
+
+	//緑色の敵の向き（正面）
+	D3DXVECTOR3 GreenEnemyYaw[EnemyNum];
+
+public:
+
+	//コンストラクタ
+	GreenEnemy();
+	//デストラクタ
+	~GreenEnemy();
+
+	//初期化
+	void Initialize();
+	//実際の動き
+	void Update();
+	//描画
+	void Draw();
+
+	void GreenEnemyReset();
+
 };

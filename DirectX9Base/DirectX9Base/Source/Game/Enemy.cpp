@@ -35,11 +35,9 @@ void Enemy::Initialize()
 	{
 		enemyObb[i].SetLength(5, 10, 10);
 		enemyObb[i].UpdateInfo(EnemyPos[i], forward, right, up);
-		angle[i].x = angle[i].z = 1.0f * i;
+		angle[i].x = sin(1.0f * i);
+		angle[i].z = cos(1.0f * i);
 		angle[i].y = 0.0f;
-
-		angleTest[i].x = sin(angle[i].x);
-		angleTest[i].z = cos(angle[i].z);
 	}
 
 
@@ -77,7 +75,7 @@ void Enemy::Draw()
 		{
 			D3DXMatrixTranslation(&mat_transform, EnemyPos[x + z * 10].x, 0.0f, EnemyPos[x + z * 10].z);		//座標
 			D3DXMatrixScaling(&mat_scale, 8.0f, 8.0f, 8.0f);				//拡大
-			D3DXMatrixRotationYawPitchRoll(&mat_rotate, -angleTest[x + z * 10].x, 0.0f, 0.0f);	//回転	
+			D3DXMatrixRotationYawPitchRoll(&mat_rotate, -angle[x + z * 10].x, 0.0f, 0.0f);	//回転	
 
 			if (EnemyAliveFlag[x + z * 10] == true)
 			{
@@ -99,13 +97,10 @@ void Enemy::Update()
 {
 	for (int i = 0; i < EnemyNum; i++)
 	{
-		angleTest[i].x = sin(angle[i].x);
-		angleTest[i].z = cos(angle[i].z);
-
 		if (EnemyAliveFlag[i] == true)
 		{
 			//敵が自機に向かって移動
-			EnemyPos[i] += angleTest[i] * EnemyMoveSpeed;
+			EnemyPos[i] += angle[i] * EnemyMoveSpeed;
 			//EnemyPos[i].z += cos(angle[i].z) * EnemyMoveSpeed;
 			enemyObb[i].UpdateInfo(EnemyPos[i], forward, right, up);
 		}
@@ -185,11 +180,11 @@ void Enemy::EnemyReset()
 			//左端を-90にしておいて、そこから20fずつずらして
 			//自機から離れた位置になるようにしておく
 			//描画するようにしておく
-			EnemyPos[x + z * 10].x = 0.0f + sin(angle[x + z * 10].x)*30.0f;
+			EnemyPos[x + z * 10].x = 0.0f + angle[x + z * 10].x*30.0f;
 
 			//敵のz座標を設定
 			//x座標と同じように20fずつずらして描画
-			EnemyPos[x + z * 10].z = 150.0f + cos(angle[x + z * 10].z)*30.0f;
+			EnemyPos[x + z * 10].z = 150.0f + angle[x + z * 10].z*30.0f;
 
 			//敵の生存フラグをtrueに
 			EnemyAliveFlag[x + z * 10] = true;
@@ -263,4 +258,297 @@ bool Enemy::EnemyBorderlineReaching()
 	}
 
 	return false;
+}
+
+//=============================================
+//■BlueEnemyクラス■
+//=============================================
+//コンストラクタ
+BlueEnemy::BlueEnemy()
+{
+
+}
+
+//デストラクタ
+BlueEnemy::~BlueEnemy()
+{
+
+}
+
+//初期化
+void BlueEnemy::Initialize()
+{
+	//モデルのロード
+	BlueEnemyModel.Load(_T("Model/enemy1.x"));
+
+	//当たり判定の設定
+	//右側
+	right.x = cos(0);
+	right.y = 0;
+	right.z = sin(0);
+	//上
+	up.x = up.z = 0;
+	up.y = 1;
+	//正面	
+	forward.x = forward.y = cos(D3DX_PI / 2);
+	forward.z = sin(D3DX_PI / 2);
+
+	degree = 0;
+	radian = 0;
+
+	for (int i = 0; i < EnemyNum; i++)
+	{
+		enemyObb[i].SetLength(5, 10, 10);
+		enemyObb[i].UpdateInfo(BlueEnemyPos[i], forward, right, up);
+
+		//角度からラジアンを求める
+		radian = PI / 180 * degree;
+
+		BlueEnemyYaw[i].x = sin(radian);
+		BlueEnemyYaw[i].y = 0.0f;
+		BlueEnemyYaw[i].z = cos(radian);
+
+		//角度を変える
+		degree += 45.0f;
+	}
+
+	BlueEnemyReset();
+
+}
+
+//描画
+void BlueEnemy::Draw()
+{
+	for (int x = 0; x < EnemyNum; x++)
+	{
+		D3DXMatrixTranslation(&mat_transform, BlueEnemyPos[x].x, 0.0f, BlueEnemyPos[x].z);		//座標
+		D3DXMatrixScaling(&mat_scale, 8.0f, 8.0f, 8.0f);				//拡大
+		D3DXMatrixRotationYawPitchRoll(&mat_rotate, -BlueEnemyYaw[x].x, 0.0f, 0.0f);	//回転	
+
+		if (BlueEnemyAliveFlag[x] == true)
+		{
+			BlueEnemyModel.Draw(mat_transform, mat_scale, mat_rotate);
+		}
+	}
+}
+
+//更新
+void BlueEnemy::Update()
+{
+	for (int i = 0; i < EnemyNum; i++)
+	{
+		if (BlueEnemyAliveFlag[i] == true)
+		{
+			//敵が自機に向かって移動
+			BlueEnemyPos[i] += BlueEnemyYaw[i] * EnemyMoveSpeed;
+			enemyObb[i].UpdateInfo(BlueEnemyPos[i], forward, right, up);
+		}
+	}
+}
+
+void BlueEnemy::BlueEnemyReset()
+{
+	for (int x = 0; x < EnemyNum; x++)
+	{
+		//敵のx座標を設定
+		//左端を-90にしておいて、そこから20fずつずらして
+		//自機から離れた位置になるようにしておく
+		//描画するようにしておく
+		BlueEnemyPos[x].x = 0.0f + BlueEnemyYaw[x].x*30.0f;
+
+		//敵のz座標を設定
+		//x座標と同じように20fずつずらして描画
+		BlueEnemyPos[x].z = 150.0f + BlueEnemyYaw[x].z*30.0f;
+
+		//敵の生存フラグをtrueに
+		BlueEnemyAliveFlag[x] = true;
+	}
+}
+
+//=============================================
+//■RedEnemyクラス■
+//=============================================
+//コンストラクタ
+RedEnemy::RedEnemy()
+{
+
+}
+
+//デストラクタ
+RedEnemy::~RedEnemy()
+{
+
+}
+
+//初期化
+void RedEnemy::Initialize()
+{
+	//モデルのロード
+	RedEnemyModel.Load(_T("Model/enemy2.x"));
+
+	//当たり判定の設定
+	//右側
+	right.x = cos(0);
+	right.y = 0;
+	right.z = sin(0);
+	//上
+	up.x = up.z = 0;
+	up.y = 1;
+	//正面	
+	forward.x = forward.y = cos(D3DX_PI / 2);
+	forward.z = sin(D3DX_PI / 2);
+
+	for (int i = 0; i < EnemyNum; i++)
+	{
+		enemyObb[i].SetLength(5, 10, 10);
+		enemyObb[i].UpdateInfo(RedEnemyPos[i], forward, right, up);
+
+		RedEnemyYaw[i].x = sin(3.0f * i);
+		RedEnemyYaw[i].y = 0.0f;
+		RedEnemyYaw[i].z = cos(3.0f * i);
+	}
+
+	RedEnemyReset();
+}
+
+//描画
+void RedEnemy::Draw()
+{
+	for (int x = 0; x < EnemyNum; x++)
+	{
+		D3DXMatrixTranslation(&mat_transform, RedEnemyPos[x].x, 0.0f, RedEnemyPos[x].z);		//座標
+		D3DXMatrixScaling(&mat_scale, 8.0f, 8.0f, 8.0f);				//拡大
+		D3DXMatrixRotationYawPitchRoll(&mat_rotate, -RedEnemyYaw[x].x, 0.0f, 0.0f);	//回転	
+
+		if (RedEnemyAliveFlag[x] == true)
+		{
+			RedEnemyModel.Draw(mat_transform, mat_scale, mat_rotate);
+		}
+	}
+}
+
+//更新
+void RedEnemy::Update()
+{
+	for (int i = 0; i < EnemyNum; i++)
+	{
+		if (RedEnemyAliveFlag[i] == true)
+		{
+			//敵が自機に向かって移動
+			RedEnemyPos[i] += RedEnemyYaw[i] * EnemyMoveSpeed;
+			enemyObb[i].UpdateInfo(RedEnemyPos[i], forward, right, up);
+		}
+	}
+}
+
+void RedEnemy::RedEnemyReset()
+{
+	for (int x = 0; x < EnemyNum; x++)
+	{
+		//敵のx座標を設定
+		//左端を-90にしておいて、そこから20fずつずらして
+		//自機から離れた位置になるようにしておく
+		//描画するようにしておく
+		RedEnemyPos[x].x = 0.0f + RedEnemyYaw[x].x*30.0f;
+
+		//敵のz座標を設定
+		//x座標と同じように20fずつずらして描画
+		RedEnemyPos[x].z = 150.0f + RedEnemyYaw[x].z*30.0f;
+
+		//敵の生存フラグをtrueに
+		RedEnemyAliveFlag[x] = true;
+	}
+}
+
+//=============================================
+//■GreenEnemyクラス■
+//=============================================
+//コンストラクタ
+GreenEnemy::GreenEnemy()
+{
+
+}
+
+//デストラクタ
+GreenEnemy::~GreenEnemy()
+{
+
+}
+
+//初期化
+void GreenEnemy::Initialize()
+{
+	//モデルのロード
+	GreenEnemyModel.Load(_T("Model/enemy0.x"));
+
+	//当たり判定の設定
+	//右側
+	right.x = cos(0);
+	right.y = 0;
+	right.z = sin(0);
+	//上
+	up.x = up.z = 0;
+	up.y = 1;
+	//正面	
+	forward.x = forward.y = cos(D3DX_PI / 2);
+	forward.z = sin(D3DX_PI / 2);
+
+	for (int i = 0; i < EnemyNum; i++)
+	{
+		enemyObb[i].SetLength(5, 10, 10);
+		enemyObb[i].UpdateInfo(GreenEnemyPos[i], forward, right, up);
+
+		GreenEnemyYaw[i].x = sin(2.0f * i);
+		GreenEnemyYaw[i].y = 0.0f;
+		GreenEnemyYaw[i].z = cos(2.0f * i);
+	}
+
+	GreenEnemyReset();
+}
+
+//描画
+void GreenEnemy::Draw()
+{
+	for (int x = 0; x < EnemyNum; x++)
+	{
+		D3DXMatrixTranslation(&mat_transform, GreenEnemyPos[x].x, 0.0f, GreenEnemyPos[x].z);		//座標
+		D3DXMatrixScaling(&mat_scale, 8.0f, 8.0f, 8.0f);				//拡大
+		D3DXMatrixRotationYawPitchRoll(&mat_rotate, -GreenEnemyYaw[x].x, 0.0f, 0.0f);	//回転	
+
+		if (GreenEnemyAliveFlag[x] == true)
+		{
+			GreenEnemyModel.Draw(mat_transform, mat_scale, mat_rotate);
+		}
+	}
+}
+
+//更新
+void GreenEnemy::Update()
+{
+	for (int i = 0; i < EnemyNum; i++)
+	{
+		if (GreenEnemyAliveFlag[i] == true)
+		{
+			//敵が自機に向かって移動
+			GreenEnemyPos[i] += GreenEnemyYaw[i] * EnemyMoveSpeed;
+			enemyObb[i].UpdateInfo(GreenEnemyPos[i], forward, right, up);
+		}
+	}
+}
+
+void GreenEnemy::GreenEnemyReset()
+{
+	for (int x = 0; x < EnemyNum; x++)
+	{
+		//敵のx座標を設定
+		//自機から離れた位置になるようにしておく
+		//描画するようにしておく
+		GreenEnemyPos[x].x = 0.0f + GreenEnemyYaw[x].x*30.0f;
+
+		//敵のz座標を設定
+		GreenEnemyPos[x].z = 150.0f + GreenEnemyYaw[x].z*30.0f;
+
+		//敵の生存フラグをtrueに
+		GreenEnemyAliveFlag[x] = true;
+	}
 }

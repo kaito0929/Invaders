@@ -45,6 +45,9 @@ private:
 	Player player;
 	Enemy enemy;
 	Bullet bullet;
+	BlueEnemy blueEnemy;
+	RedEnemy redEnemy;
+	GreenEnemy greenEnemy;
 
 	//‰¹Ä¶—p
 	Sound sound;
