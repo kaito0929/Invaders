@@ -22,6 +22,14 @@
 
 #define PI 3.141592653589793
 
+#define BlueEnemyNum 2
+#define RedEnemyNum 2
+#define GreenEnemyNum 12
+
+#define EnemyRadius 50.0f;
+
+#define RedEnemyMoveSpeed 0.3f
+
 //敵がやられた際のエフェクト用の構造体
 struct DestroyEffect
 {
@@ -121,7 +129,7 @@ private:
 	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
 
 	//敵の当たり判定
-	OrientedBoundingBox enemyObb[EnemyNum];
+	OrientedBoundingBox enemyObb[BlueEnemyNum];
 	//各方向のベクトル
 	//当たり判定に使う
 	D3DXVECTOR3 forward;
@@ -129,14 +137,14 @@ private:
 	D3DXVECTOR3 up;
 
 	//敵の位置
-	D3DXVECTOR3 BlueEnemyPos[EnemyNum];
+	D3DXVECTOR3 BlueEnemyPos[BlueEnemyNum];
 
 	//敵の生存フラグ
 	//trueならば描画して、falseならば消えるようにする
-	bool BlueEnemyAliveFlag[EnemyNum];
+	bool BlueEnemyAliveFlag[BlueEnemyNum];
 
 	//青色の敵の向き（正面）
-	D3DXVECTOR3 BlueEnemyYaw[EnemyNum];
+	D3DXVECTOR3 BlueEnemyYaw[BlueEnemyNum];
 
 	//角度
 	float degree;
@@ -159,6 +167,8 @@ public:
 
 	void BlueEnemyReset();
 
+	bool BlueEnemyCollision(OrientedBoundingBox obb);
+
 };
 
 
@@ -179,7 +189,7 @@ private:
 	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
 
 	//敵の当たり判定
-	OrientedBoundingBox enemyObb[EnemyNum];
+	OrientedBoundingBox enemyObb[RedEnemyNum];
 	//各方向のベクトル
 	//当たり判定に使う
 	D3DXVECTOR3 forward;
@@ -187,14 +197,19 @@ private:
 	D3DXVECTOR3 up;
 
 	//敵の位置
-	D3DXVECTOR3 RedEnemyPos[EnemyNum];
+	D3DXVECTOR3 RedEnemyPos[RedEnemyNum];
 
 	//敵の生存フラグ
 	//trueならば描画して、falseならば消えるようにする
-	bool RedEnemyAliveFlag[EnemyNum];
+	bool RedEnemyAliveFlag[RedEnemyNum];
 
 	//赤色の敵の向き（正面）
-	D3DXVECTOR3 RedEnemyYaw[EnemyNum];
+	D3DXVECTOR3 RedEnemyYaw[RedEnemyNum];
+
+	//角度
+	float degree;
+	//ラジアン
+	float radian;
 
 public:
 
@@ -211,6 +226,8 @@ public:
 	void Draw();
 
 	void RedEnemyReset();
+
+	bool RedEnemyCollision(OrientedBoundingBox obb);
 
 };
 
@@ -232,7 +249,7 @@ private:
 	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
 
 	//敵の当たり判定
-	OrientedBoundingBox enemyObb[EnemyNum];
+	OrientedBoundingBox enemyObb[GreenEnemyNum];
 	//各方向のベクトル
 	//当たり判定に使う
 	D3DXVECTOR3 forward;
@@ -240,14 +257,21 @@ private:
 	D3DXVECTOR3 up;
 
 	//敵の位置
-	D3DXVECTOR3 GreenEnemyPos[EnemyNum];
+	D3DXVECTOR3 GreenEnemyPos[GreenEnemyNum];
 
 	//敵の生存フラグ
 	//trueならば描画して、falseならば消えるようにする
-	bool GreenEnemyAliveFlag[EnemyNum];
+	bool GreenEnemyAliveFlag[GreenEnemyNum];
 
 	//緑色の敵の向き（正面）
-	D3DXVECTOR3 GreenEnemyYaw[EnemyNum];
+	D3DXVECTOR3 GreenEnemyYaw[GreenEnemyNum];
+
+	//角度
+	double degree;
+	//ラジアン
+	float radian;
+
+	int HitPoint;
 
 public:
 
@@ -265,4 +289,5 @@ public:
 
 	void GreenEnemyReset();
 
+	bool GreenEnemyCollision(OrientedBoundingBox obb);
 };

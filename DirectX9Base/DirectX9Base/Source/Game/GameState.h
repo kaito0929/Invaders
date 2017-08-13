@@ -27,6 +27,7 @@
 #define Start_Count_Max 10		//プレイヤーの操作が可能になるまでのインターバル
 
 #define ScorePulsNum 20			//スコアに加算する数値
+#define RedEnemy_ScorePulsNum 50
 
 extern int Score;
 
@@ -79,6 +80,8 @@ private:
 	int TimeFrame;
 	//残り時間表示用
 	NumDisplay timeDisplay;
+
+	int BulletCount;
 
 public:
 	//コンストラクタ

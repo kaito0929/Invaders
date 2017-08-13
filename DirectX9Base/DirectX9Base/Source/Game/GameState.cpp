@@ -52,6 +52,8 @@ void GameState::Initialize()
 	timeDisplay.LoadTexture("Texture/number.png");
 	timeDisplay.SetPosition(200, 100);
 	timeDisplay.SetSize(100);
+
+	BulletCount = 0;
 }
 
 //描画
@@ -64,8 +66,8 @@ void GameState::Draw()
 	//enemy.Draw();
 	//enemy.DestroyEffectDraw();
 	blueEnemy.Draw();
-	//redEnemy.Draw();
-	//greenEnemy.Draw();
+	redEnemy.Draw();
+	greenEnemy.Draw();
 
 	//ポイントスプライトを描画し終わったので
 	//RenderStateをRENDER_ALPHABLENDに変更
@@ -157,14 +159,59 @@ void GameState::Update()
 		//当たり判定を行って、弾を消滅させる
 		if (bullet.BulletShotFlag == true)
 		{
-			//弾と敵の当たり判定を処理
-			if (enemy.EnemyCollision(bullet.bulletObb))
+			//発射してから自動で弾を消すための処理
+			//弾発射からカウントを加算する
+			BulletCount++;
+			//カウントが60を超えたらフラグを
+			//falseにして弾を消しておく
+			//カウントも0にしておく
+			if (BulletCount >= 60)
+			{
+				bullet.BulletShotFlag = false;
+				BulletCount = 0;
+			}
+
+			//青色の敵と弾の衝突した際に行う処理
+			if (blueEnemy.BlueEnemyCollision(bullet.bulletObb))
 			{
 				//弾の描画フラグをfalseにして
 				//画面上から弾を消しておく
 				bullet.BulletShotFlag = false;
 				//敵を倒したのでスコアを加算
 				Score += ScorePulsNum;
+
+				//青色の敵に当たったので時間を回復させる
+				//時間管理用のフレームの数値を0に変更
+				TimeFrame = 0;
+				//一秒だけ時間を加算して、時間を回復
+				Time++;
+
+				//弾が消えたのでカウントを0にしておく
+				BulletCount = 0;
+			}
+
+			//赤色の敵と弾の衝突した際に行う処理
+			if (redEnemy.RedEnemyCollision(bullet.bulletObb))
+			{
+				//処理としては上記と変わらないので
+				//コメントはそちらを参考に
+				bullet.BulletShotFlag = false;
+				//赤色の敵は他の敵より早く動くので
+				//加算するスコアは多めにする
+				Score += RedEnemy_ScorePulsNum;
+
+				BulletCount = 0;
+			}
+
+			//青色の敵と弾の衝突した際に行う処理
+			if (greenEnemy.GreenEnemyCollision(bullet.bulletObb))
+			{
+				//処理としては上記と変わらないので
+				//コメントはそちらを参考に
+				bullet.BulletShotFlag = false;
+				Score += ScorePulsNum;
+
+				BulletCount = 0;
 			}
 		}
 
@@ -184,7 +231,13 @@ void GameState::Update()
 			StartTexPosX -= StartTex_Move;
 		}
 
+
+
+		//--残り時間を管理する処理-----------------------------
+		//残り時間を管理するフレームを加算
 		TimeFrame++;
+		//フレームが60を超えたなら一秒経過となるので
+		//残り時間から1引いて、フレームをリセットする
 		if (TimeFrame >= 60)
 		{
 			Time--;

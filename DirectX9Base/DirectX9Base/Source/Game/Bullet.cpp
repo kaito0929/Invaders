@@ -57,13 +57,6 @@ void Bullet::Update()
 {
 	//当たり判定の更新
 	bulletObb.UpdateInfo(BulletPos, forward, right, up);
-
-	//弾が指定した位置まで移動したらフラグをfaleに
-	//falseになることによって再び弾が発射できるようになる
-	if (BulletPos.z > BulletPosZMax)
-	{
-		BulletShotFlag = false;
-	}
 }
 
 //弾の発射位置を設定する関数

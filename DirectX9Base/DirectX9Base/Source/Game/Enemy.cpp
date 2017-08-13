@@ -296,7 +296,7 @@ void BlueEnemy::Initialize()
 	degree = 0;
 	radian = 0;
 
-	for (int i = 0; i < EnemyNum; i++)
+	for (int i = 0; i < BlueEnemyNum; i++)
 	{
 		enemyObb[i].SetLength(5, 10, 10);
 		enemyObb[i].UpdateInfo(BlueEnemyPos[i], forward, right, up);
@@ -309,7 +309,7 @@ void BlueEnemy::Initialize()
 		BlueEnemyYaw[i].z = cos(radian);
 
 		//角度を変える
-		degree += 45.0f;
+		degree += 180.0f;
 	}
 
 	BlueEnemyReset();
@@ -319,7 +319,7 @@ void BlueEnemy::Initialize()
 //描画
 void BlueEnemy::Draw()
 {
-	for (int x = 0; x < EnemyNum; x++)
+	for (int x = 0; x < BlueEnemyNum; x++)
 	{
 		D3DXMatrixTranslation(&mat_transform, BlueEnemyPos[x].x, 0.0f, BlueEnemyPos[x].z);		//座標
 		D3DXMatrixScaling(&mat_scale, 8.0f, 8.0f, 8.0f);				//拡大
@@ -335,7 +335,7 @@ void BlueEnemy::Draw()
 //更新
 void BlueEnemy::Update()
 {
-	for (int i = 0; i < EnemyNum; i++)
+	for (int i = 0; i < BlueEnemyNum; i++)
 	{
 		if (BlueEnemyAliveFlag[i] == true)
 		{
@@ -346,19 +346,53 @@ void BlueEnemy::Update()
 	}
 }
 
+bool BlueEnemy::BlueEnemyCollision(OrientedBoundingBox obb)
+{
+	for (int i = 0; i < BlueEnemyNum; i++)
+	{
+		//敵の生存フラグがtrueならば処理を行う
+		if (BlueEnemyAliveFlag[i] == true)
+		{
+			//衝突判定を行う
+			if (OrientedBoundingBox::Collision(obb, enemyObb[i]))
+			{
+				//相手と衝突した敵の生存フラグをfalseにして
+				//描画しないようにする
+				BlueEnemyAliveFlag[i] = false;
+
+				////衝突した時は敵が倒された場合だけなので
+				////消滅エフェクトを用意
+				//for (int j = 0; j < DestroyEffectNum; j++)
+				//{
+				//	//エフェクトの座標を衝突した敵の位置に
+				//	destroyEffect[j][i].pos = BlueEnemyPos[i];
+				//	//フラグをtrueにして使用中に
+				//	destroyEffect[j][i].used = true;
+				//	////表示する時間を0にしてリセット
+				//	destroyEffect[j][i].count = 0;
+				//}
+
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 void BlueEnemy::BlueEnemyReset()
 {
-	for (int x = 0; x < EnemyNum; x++)
+	for (int x = 0; x < BlueEnemyNum; x++)
 	{
 		//敵のx座標を設定
 		//左端を-90にしておいて、そこから20fずつずらして
 		//自機から離れた位置になるようにしておく
 		//描画するようにしておく
-		BlueEnemyPos[x].x = 0.0f + BlueEnemyYaw[x].x*30.0f;
+		BlueEnemyPos[x].x = 0.0f + BlueEnemyYaw[x].x*EnemyRadius
 
 		//敵のz座標を設定
 		//x座標と同じように20fずつずらして描画
-		BlueEnemyPos[x].z = 150.0f + BlueEnemyYaw[x].z*30.0f;
+		BlueEnemyPos[x].z = 150.0f + BlueEnemyYaw[x].z*EnemyRadius
 
 		//敵の生存フラグをtrueに
 		BlueEnemyAliveFlag[x] = true;
@@ -398,14 +432,23 @@ void RedEnemy::Initialize()
 	forward.x = forward.y = cos(D3DX_PI / 2);
 	forward.z = sin(D3DX_PI / 2);
 
-	for (int i = 0; i < EnemyNum; i++)
+	degree = 90.0f;
+	radian = 0;
+
+	for (int i = 0; i < RedEnemyNum; i++)
 	{
 		enemyObb[i].SetLength(5, 10, 10);
 		enemyObb[i].UpdateInfo(RedEnemyPos[i], forward, right, up);
 
-		RedEnemyYaw[i].x = sin(3.0f * i);
+		//角度からラジアンを求める
+		radian = PI / 180 * degree;
+
+		RedEnemyYaw[i].x = sin(radian);
 		RedEnemyYaw[i].y = 0.0f;
-		RedEnemyYaw[i].z = cos(3.0f * i);
+		RedEnemyYaw[i].z = cos(radian);
+
+		//角度を変える
+		degree += 180.0f;
 	}
 
 	RedEnemyReset();
@@ -414,7 +457,7 @@ void RedEnemy::Initialize()
 //描画
 void RedEnemy::Draw()
 {
-	for (int x = 0; x < EnemyNum; x++)
+	for (int x = 0; x < RedEnemyNum; x++)
 	{
 		D3DXMatrixTranslation(&mat_transform, RedEnemyPos[x].x, 0.0f, RedEnemyPos[x].z);		//座標
 		D3DXMatrixScaling(&mat_scale, 8.0f, 8.0f, 8.0f);				//拡大
@@ -430,30 +473,64 @@ void RedEnemy::Draw()
 //更新
 void RedEnemy::Update()
 {
-	for (int i = 0; i < EnemyNum; i++)
+	for (int i = 0; i < RedEnemyNum; i++)
 	{
 		if (RedEnemyAliveFlag[i] == true)
 		{
 			//敵が自機に向かって移動
-			RedEnemyPos[i] += RedEnemyYaw[i] * EnemyMoveSpeed;
+			RedEnemyPos[i] += RedEnemyYaw[i] * RedEnemyMoveSpeed;
 			enemyObb[i].UpdateInfo(RedEnemyPos[i], forward, right, up);
 		}
 	}
 }
 
+bool RedEnemy::RedEnemyCollision(OrientedBoundingBox obb)
+{
+	for (int i = 0; i < RedEnemyNum; i++)
+	{
+		//敵の生存フラグがtrueならば処理を行う
+		if (RedEnemyAliveFlag[i] == true)
+		{
+			//衝突判定を行う
+			if (OrientedBoundingBox::Collision(obb, enemyObb[i]))
+			{
+				//相手と衝突した敵の生存フラグをfalseにして
+				//描画しないようにする
+				RedEnemyAliveFlag[i] = false;
+
+				////衝突した時は敵が倒された場合だけなので
+				////消滅エフェクトを用意
+				//for (int j = 0; j < DestroyEffectNum; j++)
+				//{
+				//	//エフェクトの座標を衝突した敵の位置に
+				//	destroyEffect[j][i].pos = BlueEnemyPos[i];
+				//	//フラグをtrueにして使用中に
+				//	destroyEffect[j][i].used = true;
+				//	////表示する時間を0にしてリセット
+				//	destroyEffect[j][i].count = 0;
+				//}
+
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 void RedEnemy::RedEnemyReset()
 {
-	for (int x = 0; x < EnemyNum; x++)
+	for (int x = 0; x < RedEnemyNum; x++)
 	{
 		//敵のx座標を設定
 		//左端を-90にしておいて、そこから20fずつずらして
 		//自機から離れた位置になるようにしておく
 		//描画するようにしておく
-		RedEnemyPos[x].x = 0.0f + RedEnemyYaw[x].x*30.0f;
+		RedEnemyPos[x].x = 0.0f + RedEnemyYaw[x].x*EnemyRadius
 
 		//敵のz座標を設定
 		//x座標と同じように20fずつずらして描画
-		RedEnemyPos[x].z = 150.0f + RedEnemyYaw[x].z*30.0f;
+		RedEnemyPos[x].z = 150.0f + RedEnemyYaw[x].z*EnemyRadius
 
 		//敵の生存フラグをtrueに
 		RedEnemyAliveFlag[x] = true;
@@ -493,14 +570,29 @@ void GreenEnemy::Initialize()
 	forward.x = forward.y = cos(D3DX_PI / 2);
 	forward.z = sin(D3DX_PI / 2);
 
-	for (int i = 0; i < EnemyNum; i++)
+	degree = 22.5f;
+	radian = 0;
+
+	for (int i = 0; i < GreenEnemyNum; i++)
 	{
 		enemyObb[i].SetLength(5, 10, 10);
 		enemyObb[i].UpdateInfo(GreenEnemyPos[i], forward, right, up);
 
-		GreenEnemyYaw[i].x = sin(2.0f * i);
+		//角度からラジアンを求める
+		radian = PI / 180 * degree;
+
+		GreenEnemyYaw[i].x = sin(radian);
 		GreenEnemyYaw[i].y = 0.0f;
-		GreenEnemyYaw[i].z = cos(2.0f * i);
+		GreenEnemyYaw[i].z = cos(radian);
+
+		//角度を変える
+		degree += 22.5f;
+
+		if (degree == 0.0f || degree == 90.0f || degree == 180.0f || degree == 270.0f)
+		{
+			//角度を変える
+			degree += 22.5f;
+		}
 	}
 
 	GreenEnemyReset();
@@ -509,7 +601,7 @@ void GreenEnemy::Initialize()
 //描画
 void GreenEnemy::Draw()
 {
-	for (int x = 0; x < EnemyNum; x++)
+	for (int x = 0; x < GreenEnemyNum; x++)
 	{
 		D3DXMatrixTranslation(&mat_transform, GreenEnemyPos[x].x, 0.0f, GreenEnemyPos[x].z);		//座標
 		D3DXMatrixScaling(&mat_scale, 8.0f, 8.0f, 8.0f);				//拡大
@@ -525,7 +617,7 @@ void GreenEnemy::Draw()
 //更新
 void GreenEnemy::Update()
 {
-	for (int i = 0; i < EnemyNum; i++)
+	for (int i = 0; i < GreenEnemyNum; i++)
 	{
 		if (GreenEnemyAliveFlag[i] == true)
 		{
@@ -536,19 +628,55 @@ void GreenEnemy::Update()
 	}
 }
 
+bool GreenEnemy::GreenEnemyCollision(OrientedBoundingBox obb)
+{
+	for (int i = 0; i < GreenEnemyNum; i++)
+	{
+		//敵の生存フラグがtrueならば処理を行う
+		if (GreenEnemyAliveFlag[i] == true)
+		{
+			//衝突判定を行う
+			if (OrientedBoundingBox::Collision(obb, enemyObb[i]))
+			{
+				//相手と衝突した敵の生存フラグをfalseにして
+				//描画しないようにする
+				GreenEnemyAliveFlag[i] = false;
+
+				////衝突した時は敵が倒された場合だけなので
+				////消滅エフェクトを用意
+				//for (int j = 0; j < DestroyEffectNum; j++)
+				//{
+				//	//エフェクトの座標を衝突した敵の位置に
+				//	destroyEffect[j][i].pos = BlueEnemyPos[i];
+				//	//フラグをtrueにして使用中に
+				//	destroyEffect[j][i].used = true;
+				//	////表示する時間を0にしてリセット
+				//	destroyEffect[j][i].count = 0;
+				//}
+
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 void GreenEnemy::GreenEnemyReset()
 {
-	for (int x = 0; x < EnemyNum; x++)
+	for (int x = 0; x < GreenEnemyNum; x++)
 	{
 		//敵のx座標を設定
 		//自機から離れた位置になるようにしておく
 		//描画するようにしておく
-		GreenEnemyPos[x].x = 0.0f + GreenEnemyYaw[x].x*30.0f;
+		GreenEnemyPos[x].x = 0.0f + GreenEnemyYaw[x].x*EnemyRadius
 
 		//敵のz座標を設定
-		GreenEnemyPos[x].z = 150.0f + GreenEnemyYaw[x].z*30.0f;
+		GreenEnemyPos[x].z = 150.0f + GreenEnemyYaw[x].z*EnemyRadius
 
 		//敵の生存フラグをtrueに
 		GreenEnemyAliveFlag[x] = true;
+
+		HitPoint = 0;
 	}
 }
