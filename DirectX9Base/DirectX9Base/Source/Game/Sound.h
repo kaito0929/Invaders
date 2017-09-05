@@ -18,8 +18,8 @@ private:
 	SoundBuffer sb_MainMusic;
 
 	//クリア画面の音楽
-	WaveFile ClearMusic;
-	SoundBuffer sb_ClearMusic;
+	WaveFile ResultMusic;
+	SoundBuffer sb_ResultMusic;
 
 public:
 
@@ -39,10 +39,10 @@ public:
 	//メインゲームの音楽を止める関数
 	void MainSoundStop();
 
-	//クリア画面の音楽を流す関数
-	void ClearSoundPlay();
-	//クリア画面の音楽を止める関数
-	void ClearSoundStop();
+	//リザルト画面の音楽を流す関数
+	void ResultSoundPlay();
+	//リザルト画面の音楽を止める関数
+	void ResultSoundStop();
 
 
 };

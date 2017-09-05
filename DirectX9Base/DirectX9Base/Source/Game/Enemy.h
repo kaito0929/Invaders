@@ -10,25 +10,24 @@
 
 #include "../Random/Random.h"
 
-#define EnemyType 3					//敵の種類
-#define EnemyNum 8					//敵の総数
+#include "../Game/SoundEffect.h"
+
+#define EnemyType 4					//敵の種類
 #define EnemyMoveSpeed 0.1f			//敵の移動速度
-#define EnemyBorderlinePosZ 10.0f	//敵が到達してはいけないz座標
+#define RedEnemyMoveSpeed 0.3f		//赤色の敵の移動速度
 
-#define EnemyColumnNum 3			//敵の縦列の長さ
-#define EnemyRowNum 10				//敵の横列の長さ
+#define DestroyEffectNum 20	//敵を倒した時のエフェクトの数
 
-#define DestroyEffectNum 20			//敵を倒した時のエフェクトの数
+#define PI 3.141592653589793f
 
-#define PI 3.141592653589793
+#define BlueEnemyNum 6		//青色の敵の総数
+#define RedEnemyNum 6		//赤色の敵の総数
+#define GreenEnemyNum 24	//緑色の敵の総数
+#define PurpleEnemyNum 12	//紫色の敵の総数
 
-#define BlueEnemyNum 2
-#define RedEnemyNum 2
-#define GreenEnemyNum 12
+#define BulletShotTiming 2	//敵が弾を発射するタイミング
+#define BulletEndTiming 3	//敵の弾が消えるタイミング
 
-#define EnemyRadius 50.0f;
-
-#define RedEnemyMoveSpeed 0.3f
 
 //敵がやられた際のエフェクト用の構造体
 struct DestroyEffect
@@ -50,38 +49,6 @@ struct DestroyEffect
 
 class Enemy
 {
-private:
-
-	//敵のモデル
-	Mesh EnemyModel[EnemyType];
-	//メッシュに渡す行列を作成
-	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
-
-	//敵の位置
-	D3DXVECTOR3 EnemyPos[EnemyNum];
-
-	//敵の当たり判定
-	OrientedBoundingBox enemyObb[EnemyNum];
-	//各方向のベクトル
-	//当たり判定に使う
-	D3DXVECTOR3 forward;
-	D3DXVECTOR3 right;
-	D3DXVECTOR3 up;
-
-	//敵の生存フラグ
-	//trueならば描画して、falseならば消えるようにする
-	bool EnemyAliveFlag[EnemyNum];
-	//全ての敵を倒したかの判定
-	bool EnemyOllDestroy;
-
-	DestroyEffect destroyEffect[DestroyEffectNum][EnemyNum];
-	Texture *DestroyTex;
-
-	VERTEX *vertex;
-	Random random;
-
-	D3DXVECTOR3 angle[EnemyNum];
-
 public:
 
 	//コンストラクタ
@@ -89,27 +56,31 @@ public:
 	//デストラクタ
 	~Enemy();
 
-	//初期化
-	void Initialize();
-	//実際の動き
-	void Update();
-	//描画
-	void Draw();
+	//敵のモデル
+	Mesh EnemyModel[EnemyType];
+	//メッシュに渡す行列を作成
+	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
 
-	//敵との当たり判定を行う関数
-	bool EnemyCollision(OrientedBoundingBox obb);
+	//各方向のベクトル
+	//当たり判定に使う
+	D3DXVECTOR3 forward;
+	D3DXVECTOR3 right;
+	D3DXVECTOR3 up;
 
-	//敵が一度全滅した時に再度出現させるための関数
-	void EnemyReset();
+	Texture *DestroyTex;
+	Random random;
 
-	//敵が消滅する際のエフェクトを描画
-	void DestroyEffectDraw();
-	//敵がやられた時のエフェクトの位置などを設定する関数
-	void DestroyEffectSet();
+	//全ての敵を倒したかの判定
+	bool EnemyOllDestroy;
 
-	//敵が指定した位置まで到達した場合にtrueを返し
-	//画面遷移を開始させる関数
-	bool EnemyBorderlineReaching();
+	//角度
+	float degree;
+	//ラジアン
+	float radian;
+
+	float EnemyRadius[3];
+
+	SoundEffect se;
 };
 
 
@@ -123,18 +94,7 @@ public:
 class BlueEnemy : public Enemy
 {
 private:
-	//敵のモデル
-	Mesh BlueEnemyModel;
-	//メッシュに渡す行列を作成
-	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
 
-	//敵の当たり判定
-	OrientedBoundingBox enemyObb[BlueEnemyNum];
-	//各方向のベクトル
-	//当たり判定に使う
-	D3DXVECTOR3 forward;
-	D3DXVECTOR3 right;
-	D3DXVECTOR3 up;
 
 	//敵の位置
 	D3DXVECTOR3 BlueEnemyPos[BlueEnemyNum];
@@ -146,10 +106,15 @@ private:
 	//青色の敵の向き（正面）
 	D3DXVECTOR3 BlueEnemyYaw[BlueEnemyNum];
 
-	//角度
-	float degree;
-	//ラジアン
-	float radian;
+	DestroyEffect destroyEffect[DestroyEffectNum][BlueEnemyNum];
+
+	VERTEX *vertex;
+
+	//青色の敵を全部倒した時のフラグ
+	bool BlueEnemyOllDown;
+
+	float EnemyRadian[BlueEnemyNum];
+
 
 public:
 
@@ -169,6 +134,17 @@ public:
 
 	bool BlueEnemyCollision(OrientedBoundingBox obb);
 
+	//敵が消滅する際のエフェクトを描画
+	void DestroyEffectDraw();
+	//敵がやられた時のエフェクトの位置などを設定する関数
+	void DestroyEffectSet();
+
+	bool GetBlueEnemyOllDown() { return BlueEnemyOllDown; }
+
+	//敵の当たり判定
+	OrientedBoundingBox enemyObb[BlueEnemyNum];
+
+
 };
 
 
@@ -183,18 +159,6 @@ class RedEnemy : public Enemy
 {
 private:
 
-	//敵のモデル
-	Mesh RedEnemyModel;
-	//メッシュに渡す行列を作成
-	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
-
-	//敵の当たり判定
-	OrientedBoundingBox enemyObb[RedEnemyNum];
-	//各方向のベクトル
-	//当たり判定に使う
-	D3DXVECTOR3 forward;
-	D3DXVECTOR3 right;
-	D3DXVECTOR3 up;
 
 	//敵の位置
 	D3DXVECTOR3 RedEnemyPos[RedEnemyNum];
@@ -206,10 +170,13 @@ private:
 	//赤色の敵の向き（正面）
 	D3DXVECTOR3 RedEnemyYaw[RedEnemyNum];
 
-	//角度
-	float degree;
-	//ラジアン
-	float radian;
+	DestroyEffect destroyEffect[DestroyEffectNum][RedEnemyNum];
+
+	VERTEX *vertex;
+
+	//赤色の敵を全部倒した時のフラグ
+	bool RedEnemyOllDown;
+
 
 public:
 
@@ -229,6 +196,17 @@ public:
 
 	bool RedEnemyCollision(OrientedBoundingBox obb);
 
+	//敵が消滅する際のエフェクトを描画
+	void DestroyEffectDraw();
+	//敵がやられた時のエフェクトの位置などを設定する関数
+	void DestroyEffectSet();
+
+	bool GetRedEnemyOllDown() { return RedEnemyOllDown; }
+
+	//敵の当たり判定
+	OrientedBoundingBox enemyObb[RedEnemyNum];
+
+
 };
 
 
@@ -243,19 +221,6 @@ class GreenEnemy : public Enemy
 {
 private:
 
-	//敵のモデル
-	Mesh GreenEnemyModel;
-	//メッシュに渡す行列を作成
-	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
-
-	//敵の当たり判定
-	OrientedBoundingBox enemyObb[GreenEnemyNum];
-	//各方向のベクトル
-	//当たり判定に使う
-	D3DXVECTOR3 forward;
-	D3DXVECTOR3 right;
-	D3DXVECTOR3 up;
-
 	//敵の位置
 	D3DXVECTOR3 GreenEnemyPos[GreenEnemyNum];
 
@@ -266,12 +231,46 @@ private:
 	//緑色の敵の向き（正面）
 	D3DXVECTOR3 GreenEnemyYaw[GreenEnemyNum];
 
-	//角度
-	double degree;
-	//ラジアン
-	float radian;
+	DestroyEffect destroyEffect[DestroyEffectNum][GreenEnemyNum];
 
-	int HitPoint;
+	VERTEX *vertex;
+
+	//緑色の敵を全部倒した時のフラグ
+	bool GreenEnemyOllDown;
+
+	//緑の敵が発射する弾
+	Mesh EnemyBullet;
+	//メッシュに渡す行列を作成
+	D3DXMATRIXA16 mat_bulletTransform, mat_bulletScale, mat_bulletRotate;
+
+	//弾を発射しているかのフラグ
+	bool GreenEnemyShotFlag[GreenEnemyNum];
+
+	//弾発射用のカウント
+	int ShotCount;
+	//弾発射を管理するフレーム
+	int ShotFrame;
+
+	//弾が発射済みかのフラグ
+	bool BulletFiredFlag;
+
+	// 敵を波打たせるための数値
+	float Wave;
+
+	D3DXVECTOR3 BulletPos[GreenEnemyNum];
+	D3DXVECTOR3 BulletAngle[GreenEnemyNum];
+
+	//弾の当たり判定
+	OrientedBoundingBox bulletObb[GreenEnemyNum];
+
+	//各方向のベクトル
+	//当たり判定に使う
+	D3DXVECTOR3 forward_bullet;
+	D3DXVECTOR3 right_bullet;
+	D3DXVECTOR3 up_bullet;
+
+	float EnemyRadian[GreenEnemyNum];
+
 
 public:
 
@@ -290,4 +289,92 @@ public:
 	void GreenEnemyReset();
 
 	bool GreenEnemyCollision(OrientedBoundingBox obb);
+
+
+	//敵が消滅する際のエフェクトを描画
+	void DestroyEffectDraw();
+	//敵がやられた時のエフェクトの位置などを設定する関数
+	void DestroyEffectSet();
+
+	//敵の弾を発射させる関数
+	void EnemyBulletShot();
+	void EnemyBulletSet();
+
+	bool EnemyBulletCollision(OrientedBoundingBox obb);
+
+	bool GetGreenEnemyOllDown() { return GreenEnemyOllDown; }
+
+	//敵の当たり判定
+	OrientedBoundingBox enemyObb[GreenEnemyNum];
+
+
+};
+
+
+//================================================================
+//クラス名  ：PurpleEnemyクラス
+//基底クラス：Enemyクラス
+//
+//内容：Enemyクラスから派生させたクラス。紫色の敵のクラス
+//================================================================
+
+class PurpleEnemy : public Enemy
+{
+private:
+
+	//敵の位置
+	D3DXVECTOR3 PurpleEnemyPos[PurpleEnemyNum];
+
+	//敵の生存フラグ
+	//trueならば描画して、falseならば消えるようにする
+	bool PurpleEnemyAliveFlag[PurpleEnemyNum];
+
+	//緑色の敵の向き（正面）
+	D3DXVECTOR3 PurpleEnemyYaw[PurpleEnemyNum];
+
+	DestroyEffect destroyEffect[DestroyEffectNum][PurpleEnemyNum];
+
+	VERTEX *vertex;
+
+	//紫色の敵を全部倒した時のフラグ
+	bool PurpleEnemyOllDown;
+
+	int HitPoint[PurpleEnemyNum];
+
+	float EnemyRadian[PurpleEnemyNum];
+
+
+public:
+
+	//コンストラクタ
+	PurpleEnemy();
+	//デストラクタ
+	~PurpleEnemy();
+
+	//初期化
+	void Initialize();
+	//実際の動き
+	void Update();
+	//描画
+	void Draw();
+
+	//紫色の敵の位置や生存フラグなどの初期化
+	void PurpleEnemyReset();
+
+	//紫色の敵の衝突判定
+	bool PurpleEnemyCollision(OrientedBoundingBox obb, bool* flag);
+
+	//敵が消滅する際のエフェクトを描画
+	void DestroyEffectDraw();
+	//敵がやられた時のエフェクトの位置などを設定する関数
+	void DestroyEffectSet();
+
+	//紫色の敵が全て倒された時のフラグを渡す関数
+	bool GetPurpleEnemyOllDown() { return PurpleEnemyOllDown; }
+
+	//敵の当たり判定
+	OrientedBoundingBox enemyObb[PurpleEnemyNum];
+
+
+
 };

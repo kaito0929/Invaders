@@ -26,6 +26,7 @@ enum TITLESTATE
 {
 	FADEIN,
 	START,
+	TUTORIAL,
 };
 
 
@@ -55,6 +56,10 @@ private:
 	Sound sound;
 	SoundEffect se;
 
+	Texture TutorialTex[3];
+	Sprite TutorialSprite;
+
+	int TutorialNumber;
 
 	Fade fade;
 

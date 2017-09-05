@@ -29,7 +29,7 @@ void Result::Initialize()
 	resultState = FADE_IN;
 
 	numDisplay.LoadTexture("Texture/number.png");
-	numDisplay.SetPosition(1100, 100);
+	numDisplay.SetPosition(1200, 100);
 	numDisplay.SetSize(150);
 }
 
@@ -53,7 +53,7 @@ void Result::Update()
 {
 	DirectInput* pDi = DirectInput::GetInstance();
 
-	//sound.ClearSoundPlay();
+	sound.ResultSoundPlay();
 
 	switch (resultState)
 	{
@@ -83,7 +83,7 @@ void Result::Update()
 			//完全に画面が暗くなったならシーンをメインゲームに変更
 			if (fade.FadeOut() == true)
 			{
-				sound.ClearSoundStop();
+				sound.ResultSoundStop();
 				mSceneChanger->ChangeScene(STATE_TITLE);
 			}
 		}

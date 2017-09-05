@@ -443,13 +443,14 @@ void Direct3D::SetViewMatrix(D3DXMATRIXA16 &mat)
 
 void Direct3D::SetupProjectionMatrix()
 {
+
 	//射影行列
 	//おそらくカメラの視野角の設定
 	D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH	//LH:左手系座標 <-> RH:右手系座標
 		(&matProj,
 		3.0f / 4.0f,  //y軸方向への視野　ラジアン
-		1.0f,		  //アスペクト比
+		1300.0f/800.0f,		  //アスペクト比
 		1.0f,		  //近いビュー平面のz値
 		600.0f);	  //遠いビュー平面のz値
 

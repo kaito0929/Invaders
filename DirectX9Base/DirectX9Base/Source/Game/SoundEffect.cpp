@@ -16,12 +16,15 @@ void SoundEffect::Initialize()
 	//Œˆ’è‚µ‚½‚ÌŒø‰Ê‰¹
 	DecisionSE.Load("Sound/decision.wav");
 
-
 	//”­Ë‰¹
 	ShotSE.Load("Sound/shot.wav");
 
 	//’…’e‰¹
 	ShotHitSE.Load("Sound/shotHit.wav");
+
+	//©‹@Á–Å‰¹
+	PlayerDestroySE.Load("Sound/bomb.wav");
+	sb_PlayerDestroySE.Create(PlayerDestroySE);
 
 	//©‹@‚ÌÕ“Ë‰¹
 	PlayerHitSE.Load("Sound/playerHit.wav");
@@ -81,6 +84,11 @@ void SoundEffect::ShotHitSEPlay()
 			break;
 		}
 	}
+}
+
+void SoundEffect::PlayerDestroySEPlay()
+{
+	sb_PlayerDestroySE.Play(false);
 }
 
 void SoundEffect::PlayerHitSEPlay()

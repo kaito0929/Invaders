@@ -21,8 +21,8 @@ void Sound::Initialize()
 	sb_MainMusic.Create(MainMusic);
 
 	//ゲームクリア画面の音関係
-	ClearMusic.Load("Sound/gameclear.wav");
-	sb_ClearMusic.Create(ClearMusic);
+	ResultMusic.Load("Sound/result.wav");
+	sb_ResultMusic.Create(ResultMusic);
 }
 
 void Sound::Update()
@@ -55,14 +55,14 @@ void Sound::MainSoundStop()
 }
 
 //リザルト画面の音楽を流す関数
-void Sound::ClearSoundPlay()
+void Sound::ResultSoundPlay()
 {
-	sb_ClearMusic.Play(true);
+	sb_ResultMusic.Play(true);
 }
 
 //リザルト画面の音楽を止める関数
-void Sound::ClearSoundStop()
+void Sound::ResultSoundStop()
 {
-	sb_ClearMusic.Stop();
+	sb_ResultMusic.Stop();
 }
 

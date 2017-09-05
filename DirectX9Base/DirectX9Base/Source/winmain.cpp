@@ -101,7 +101,7 @@ HRESULT MakeWindow(HINSTANCE hInstance,HWND & refHWnd,int Width =800,int Height=
 	hWnd = CreateWindowEx
 		(0,						//ウィンドウ拡張スタイル
 		WC_BASIC,				//先に作ったウィンドウクラスの設定
-		_T("インベーダー3D"),		//ウィンドウのタイトル
+		_T("TurnShooting"),		//ウィンドウのタイトル
 		WS_OVERLAPPEDWINDOW,	//ウィンドウスタイル
 		CW_USEDEFAULT,			//位置x座標
 		CW_USEDEFAULT,			//位置y座標
@@ -115,7 +115,7 @@ HRESULT MakeWindow(HINSTANCE hInstance,HWND & refHWnd,int Width =800,int Height=
 
 	if (hWnd == NULL)
 	{
-		MessageBox(NULL, "ウィンドウの作成に失敗\nプログラムの終了", "盆娘。", MB_OK); // MB_OK　メッセージボックスのタイプ
+		MessageBox(NULL, "ウィンドウの作成に失敗\nプログラムの終了", "TurnShooting", MB_OK); // MB_OK　メッセージボックスのタイプ
 		return S_FALSE;//プログラムの終了
 	}
 

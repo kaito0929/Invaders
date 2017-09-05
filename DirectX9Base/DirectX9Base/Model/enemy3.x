@@ -5,7 +5,7 @@ Material Material_000 {
 	0.090000;0.090000;0.090000;;
 	1.000000;1.000000;1.000000;;
 	TextureFilename {
-		"yellow.png";
+		"purple.png";
 	}
 }
 Frame Mesh {

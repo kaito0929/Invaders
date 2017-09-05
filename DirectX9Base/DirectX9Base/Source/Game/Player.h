@@ -8,6 +8,9 @@
 #include "../BoundingBox/BoundingBox.h"
 #include "../Input/directInput.h"
 
+#include "../Game/Enemy.h"
+#include "../Random/Random.h"
+
 #define PlayerRotateZ_ChangeNum 0.1f	//自機の向きを変える時の数値
 
 #define PlayerRotateLeftMax 1.0f		//自機の左方向の傾きの最大値
@@ -32,10 +35,27 @@ private:
 	//プレイヤーのモデルを傾けるための変数
 	float PlayerRoll;
 
+	Texture HitPointTex;
+	Sprite HitPointSprite[3];
+
 	//カメラ操作
 	Camera camera;
 	//カメラの位置
 	D3DXVECTOR3 CameraPos;
+
+	OrientedBoundingBox playerObb;
+
+	//各方向のベクトル
+	//当たり判定に使う
+	D3DXVECTOR3 forward;
+	D3DXVECTOR3 right;
+	D3DXVECTOR3 up;
+
+	//自機が消滅した時に表示するテクスチャ
+	Texture *DestroyTex;
+	VERTEX *vertex;
+	//エフェクトが飛んでいく方向を決定するランダムの数値
+	Random random;
 
 
 public:
@@ -58,11 +78,26 @@ public:
 	//カメラの動きの制御
 	void CameraControl();
 
+	//消滅時のエフェクトを描画する
+	void EffectDraw();
+	//消滅時のエフェクトの位置などを設定する関数
+	void EffectSet();
+	//消滅時のエフェクトの軌道
+	void EffecMove();
 
 	//プレイヤーの位置
 	D3DXVECTOR3 PlayerPos;
 	//プレイヤーの向いている方向
 	D3DXVECTOR3 PlayerAngle;
+
+	OrientedBoundingBox GetPlayerObb() { return playerObb; };
+
+	//自機の残り体力
+	int PlayerHp;
+	//プレイヤーの生存フラグ
+	bool PlayerAliveFlag;
+	//消滅時のエフェクト
+	DestroyEffect destroyEffect[DestroyEffectNum];
 
 
 };

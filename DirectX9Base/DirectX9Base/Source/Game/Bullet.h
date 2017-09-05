@@ -13,6 +13,9 @@
 //弾の移動速度
 #define BulletMoveSpeed 3.0f 
 
+//発射できる弾の最大数
+#define BulletMax 10
+
 class Bullet
 {
 private:
@@ -22,9 +25,9 @@ private:
 	//メッシュに渡す行列を作成
 	D3DXMATRIXA16 mat_transform, mat_scale, mat_rotate;
 	//弾の座標
-	D3DXVECTOR3 BulletPos;
+	D3DXVECTOR3 BulletPos[BulletMax];
 	//弾が発射される角度
-	D3DXVECTOR3 BulletShotAngle;
+	D3DXVECTOR3 BulletShotAngle[BulletMax];
 
 	//各方向のベクトル
 	//当たり判定に使う
@@ -46,9 +49,9 @@ public:
 	//弾の場所を決定
 	void BulletSet(D3DXVECTOR3 pPos,D3DXVECTOR3 pAngle);
 	//弾を発射しているかのフラグ
-	bool BulletShotFlag;
+	bool BulletShotFlag[BulletMax];
 
 	//弾の当たり判定
-	OrientedBoundingBox bulletObb;
+	OrientedBoundingBox bulletObb[BulletMax];
 
 };
